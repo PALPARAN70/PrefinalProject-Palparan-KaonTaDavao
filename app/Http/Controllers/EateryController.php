@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEateryRequest;
+use App\Http\Requests\UpdateEateryRequest;
 use App\Models\District;
 use App\Models\Eatery;
 use App\Models\Feature;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class EateryController extends Controller
 {
@@ -43,12 +47,30 @@ class EateryController extends Controller
 
     public function create()
     {
-        // Phase 4
+        return view('eateries.create', [
+            'eatery' => new Eatery(),
+            'districts' => District::orderBy('name')->get(),
+            'features' => Feature::orderBy('name')->get(),
+        ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreEateryRequest $request)
     {
-        // Phase 4
+        $data = $request->validated();
+
+        $eatery = Eatery::create(
+            Arr::except($data, ['features', 'permit_no', 'expires_on'])
+            + ['slug' => Str::slug($data['name'])]
+        );
+
+        $eatery->permit()->create([
+            'permit_no' => $data['permit_no'],
+            'expires_on' => $data['expires_on'],
+        ]);
+
+        $eatery->features()->sync($data['features']);
+
+        return redirect()->route('eateries.show', $eatery)->with('success', 'Eatery added.');
     }
 
     public function show(Eatery $eatery)
@@ -71,16 +93,43 @@ class EateryController extends Controller
 
     public function edit(Eatery $eatery)
     {
-        // Phase 4
+        $eatery->load(['permit', 'features']);
+
+        return view('eateries.edit', [
+            'eatery' => $eatery,
+            'districts' => District::orderBy('name')->get(),
+            'features' => Feature::orderBy('name')->get(),
+        ]);
     }
 
-    public function update(Request $request, Eatery $eatery)
+    public function update(UpdateEateryRequest $request, Eatery $eatery)
     {
-        // Phase 4
+        $data = $request->validated();
+
+        $eatery->update(
+            Arr::except($data, ['features', 'permit_no', 'expires_on'])
+            + ['slug' => Str::slug($data['name'])]
+        );
+
+        $eatery->permit()->updateOrCreate(
+            ['eatery_id' => $eatery->id],
+            ['permit_no' => $data['permit_no'], 'expires_on' => $data['expires_on']]
+        );
+
+        $eatery->features()->sync($data['features']);
+
+        return redirect()->route('eateries.show', $eatery)->with('success', 'Eatery updated.');
     }
 
     public function destroy(Eatery $eatery)
     {
-        // Phase 4
+        // children first, so the foreign keys never block the delete
+        $eatery->features()->detach();
+        $eatery->reviews()->delete();
+        $eatery->dishes()->delete();
+        $eatery->permit()->delete();
+        $eatery->delete();
+
+        return redirect()->route('eateries.index')->with('success', 'Eatery deleted.');
     }
 }

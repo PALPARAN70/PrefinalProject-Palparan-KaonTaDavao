@@ -37,8 +37,8 @@ class EaterySeeder extends Seeder
     );
 
     $mine->permit()->create([
-        'permit_no' => 'DVO-2026-0000',   // CHANGE: 0000 -> your birthday MMDD
-        'expires_on' => '2027-01-01',     // CHANGE: your birthday in 2027, as YYYY-MM-DD
+        'permit_no' => 'DVO-2026-0312',   
+        'expires_on' => '2027-03-12',     
     ]);
 
     $mine->dishes()->createMany([

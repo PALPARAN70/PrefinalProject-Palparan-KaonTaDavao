@@ -50,4 +50,14 @@ public function features(): BelongsToMany
 {
     return $this->belongsToMany(Feature::class);
 }
+
+public function priceSign(): string
+{
+    return match ($this->price_range) {
+        'budget' => '₱',
+        'mid' => '₱₱',
+        'splurge' => '₱₱₱',
+        default => '',
+    };
+}
 }

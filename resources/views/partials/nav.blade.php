@@ -1,8 +1,25 @@
-<nav class="bg-white shadow">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-6 text-sm font-medium">
-        <a href="{{ route('home') }}" class="hover:text-orange-600">Home</a>
-        <a href="{{ route('eateries.index') }}" class="hover:text-orange-600">Eateries</a>
-        <a href="{{ route('districts.index') }}" class="hover:text-orange-600">Districts</a>
-        <a href="{{ route('eateries.create') }}" class="hover:text-orange-600">Add Eatery</a>
-    </div>
+<nav class="flex flex-wrap items-center gap-1 text-sm font-semibold">
+    <a href="{{ route('home') }}"
+       @class([
+           'rounded-lg px-3 py-2 transition',
+           'bg-slate-800 text-white' => request()->routeIs('home'),
+           'text-slate-300 hover:bg-slate-800 hover:text-white' => ! request()->routeIs('home'),
+       ])>Home</a>
+
+    <a href="{{ route('eateries.index') }}"
+       @class([
+           'rounded-lg px-3 py-2 transition',
+           'bg-slate-800 text-white' => request()->routeIs('eateries.index', 'eateries.show', 'eateries.edit'),
+           'text-slate-300 hover:bg-slate-800 hover:text-white' => ! request()->routeIs('eateries.index', 'eateries.show', 'eateries.edit'),
+       ])>Eateries</a>
+
+    <a href="{{ route('districts.index') }}"
+       @class([
+           'rounded-lg px-3 py-2 transition',
+           'bg-slate-800 text-white' => request()->routeIs('districts.*'),
+           'text-slate-300 hover:bg-slate-800 hover:text-white' => ! request()->routeIs('districts.*'),
+       ])>Districts</a>
+
+    <a href="{{ route('eateries.create') }}"
+       class="ml-2 rounded-lg bg-teal-500 px-4 py-2 font-bold text-slate-900 transition hover:bg-teal-400">Add Eatery</a>
 </nav>

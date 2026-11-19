@@ -17,13 +17,13 @@
     <div>
         <label for="name" class="block font-medium">Name</label>
         <input type="text" id="name" name="name" value="{{ old('name', $eatery->name) }}"
-               class="w-full border rounded px-3 py-2">
+               class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">
         @error('name') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
 
     <div>
         <label for="district_id" class="block font-medium">District</label>
-        <select id="district_id" name="district_id" class="w-full border rounded px-3 py-2">
+        <select id="district_id" name="district_id" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">
             <option value="">Choose a district</option>
             @foreach ($districts as $district)
                 <option value="{{ $district->id }}" @selected(old('district_id', $eatery->district_id) == $district->id)>{{ $district->name }}</option>
@@ -35,13 +35,13 @@
     <div>
         <label for="address" class="block font-medium">Address</label>
         <input type="text" id="address" name="address" value="{{ old('address', $eatery->address) }}"
-               class="w-full border rounded px-3 py-2">
+               class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">
         @error('address') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
 
     <div>
         <label for="price_range" class="block font-medium">Price range</label>
-        <select id="price_range" name="price_range" class="w-full border rounded px-3 py-2">
+        <select id="price_range" name="price_range" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">
             <option value="">Choose a price range</option>
             @foreach (['budget' => 'Budget (₱)', 'mid' => 'Mid (₱₱)', 'splurge' => 'Splurge (₱₱₱)'] as $value => $label)
                 <option value="{{ $value }}" @selected(old('price_range', $eatery->price_range) === $value)>{{ $label }}</option>
@@ -53,7 +53,7 @@
     <div>
         <label for="specialty" class="block font-medium">Specialty</label>
         <input type="text" id="specialty" name="specialty" value="{{ old('specialty', $eatery->specialty) }}"
-               class="w-full border rounded px-3 py-2">
+               class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">
         @error('specialty') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
 
@@ -83,7 +83,7 @@
         <label for="permit_no" class="block font-medium">Permit number</label>
         <input type="text" id="permit_no" name="permit_no"
                value="{{ old('permit_no', $eatery->permit?->permit_no) }}"
-               class="w-full border rounded px-3 py-2">
+               class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">
         @error('permit_no') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
 
@@ -91,7 +91,7 @@
         <label for="expires_on" class="block font-medium">Permit expiry date</label>
         <input type="date" id="expires_on" name="expires_on"
                value="{{ old('expires_on', $eatery->permit?->expires_on?->format('Y-m-d')) }}"
-               class="w-full border rounded px-3 py-2">
+               class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">
         @error('expires_on') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
 </div>

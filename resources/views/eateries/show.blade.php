@@ -3,7 +3,7 @@
 @section('content')
     <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
         <div>
-            <h2 class="text-3xl font-bold">
+            <h2 class="text-4xl font-extrabold tracking-tight">
                 {{ $eatery->name }}
                 @unless ($eatery->is_open)
                     <span class="ml-2 rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-700">Closed</span>
@@ -22,24 +22,25 @@
             <div class="mt-2 flex flex-wrap gap-2">
                 @foreach ($eatery->features as $feature)
                     <a href="{{ route('eateries.index', ['feature' => $feature->name]) }}"
-                       class="rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-800">{{ $feature->name }}</a>
+                       class="rounded-full bg-teal-100 px-2 py-1 text-xs text-teal-800">{{ $feature->name }}</a>
                 @endforeach
             </div>
         </div>
 
         <div class="flex gap-2">
-            <a href="{{ route('eateries.edit', $eatery) }}" class="rounded bg-blue-600 px-4 py-2 text-white">Edit</a>
+            <a href="{{ route('eateries.edit', $eatery) }}" class="rounded bg-slate-800 px-4 py-2 text-white">Edit</a>
             <form method="POST" action="{{ route('eateries.destroy', $eatery) }}"
-                  onsubmit="return confirm('Delete this eatery?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="rounded bg-red-600 px-4 py-2 text-white">Delete</button>
-            </form>
+      data-confirm-title="Delete this eatery?"
+      data-confirm="This will permanently remove {{ $eatery->name }} along with its permit, dishes, reviews, and features.">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700">Delete</button>
+</form>
         </div>
     </div>
 
     @if ($eatery->permit)
-        <div class="bg-white rounded-lg shadow p-4 mb-6">
+        <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 p-4 mb-6">
             <h3 class="font-semibold mb-1">Business Permit</h3>
             <p>Permit no: {{ $eatery->permit->permit_no }}</p>
             <p>Expires: {{ $eatery->permit->expires_on->format('M d, Y') }}</p>
@@ -49,7 +50,7 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-lg shadow p-4 mb-6">
+    <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 p-4 mb-6">
         <h3 class="font-semibold mb-2">Dishes</h3>
         <ul class="divide-y">
             @foreach ($eatery->dishes as $dish)
@@ -70,7 +71,7 @@
 
     @if ($eatery->is_open)
                 <form method="POST" action="{{ route('eateries.reviews.store', $eatery) }}"
-              class="bg-white rounded-lg shadow p-4 mb-6">
+              class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 p-4 mb-6">
             @csrf
 
             @if ($errors->any())
@@ -85,7 +86,7 @@
 
             <div class="mb-3">
                 <label for="user_id" class="block font-medium">Reviewer</label>
-                <select id="user_id" name="user_id" class="w-full border rounded px-3 py-2">
+                <select id="user_id" name="user_id" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">
                     <option value="">Choose a reviewer</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}" @selected(old('user_id') == $user->id)>{{ $user->name }}</option>
@@ -96,7 +97,7 @@
 
             <div class="mb-3">
                 <label for="rating" class="block font-medium">Rating</label>
-                <select id="rating" name="rating" class="w-full border rounded px-3 py-2">
+                <select id="rating" name="rating" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">
                     <option value="">Choose a rating</option>
                     @for ($i = 1; $i <= 5; $i++)
                         <option value="{{ $i }}" @selected(old('rating') == $i)>{{ $i }} ★</option>
@@ -107,29 +108,31 @@
 
             <div class="mb-3">
                 <label for="body" class="block font-medium">Review</label>
-                <textarea id="body" name="body" rows="3" class="w-full border rounded px-3 py-2">{{ old('body') }}</textarea>
+                <textarea id="body" name="body" rows="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20">{{ old('body') }}</textarea>
                 @error('body') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
 
-            <button type="submit" class="rounded bg-orange-600 px-4 py-2 text-white hover:bg-orange-700">Post review</button>
+            <button type="submit" class="rounded bg-teal-600 px-4 py-2 text-white hover:bg-teal-700">Post review</button>
         </form>
     @else
         <p class="mb-4 text-gray-600">This eatery is closed. Reviews are paused.</p>
     @endif
 
     @forelse ($eatery->reviews as $review)
-        <div class="bg-white rounded-lg shadow p-4 mb-3">
+        <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 p-4 mb-3">
             <div class="flex flex-wrap items-center gap-3">
                 <a href="{{ route('reviewers.show', $review->user) }}" class="font-semibold underline">{{ $review->user->name }}</a>
                 <x-rating :value="$review->rating" />
                 <span class="text-sm text-gray-500">{{ $review->created_at->format('M d, Y') }}</span>
             </div>
             <p class="mt-2">{{ $review->body }}</p>
-            <form method="POST" action="{{ route('reviews.destroy', $review) }}" class="mt-2">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="text-sm text-red-600 underline">Delete</button>
-            </form>
+            <form method="POST" action="{{ route('reviews.destroy', $review) }}" class="mt-2"
+      data-confirm-title="Delete this review?"
+      data-confirm="This review will be permanently removed.">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="text-sm font-semibold text-red-600 underline">Delete</button>
+</form>
         </div>
     @empty
         <p class="text-gray-600">No reviews yet.</p>

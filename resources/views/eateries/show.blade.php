@@ -69,7 +69,50 @@
     <h3 class="text-xl font-bold mb-3">Reviews</h3>
 
     @if ($eatery->is_open)
-        {{-- Phase 4: review form goes here --}}
+                <form method="POST" action="{{ route('eateries.reviews.store', $eatery) }}"
+              class="bg-white rounded-lg shadow p-4 mb-6">
+            @csrf
+
+            @if ($errors->any())
+                <div class="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-800">
+                    <ul class="list-disc pl-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <div class="mb-3">
+                <label for="user_id" class="block font-medium">Reviewer</label>
+                <select id="user_id" name="user_id" class="w-full border rounded px-3 py-2">
+                    <option value="">Choose a reviewer</option>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}" @selected(old('user_id') == $user->id)>{{ $user->name }}</option>
+                    @endforeach
+                </select>
+                @error('user_id') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="rating" class="block font-medium">Rating</label>
+                <select id="rating" name="rating" class="w-full border rounded px-3 py-2">
+                    <option value="">Choose a rating</option>
+                    @for ($i = 1; $i <= 5; $i++)
+                        <option value="{{ $i }}" @selected(old('rating') == $i)>{{ $i }} ★</option>
+                    @endfor
+                </select>
+                @error('rating') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="body" class="block font-medium">Review</label>
+                <textarea id="body" name="body" rows="3" class="w-full border rounded px-3 py-2">{{ old('body') }}</textarea>
+                @error('body') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <button type="submit" class="rounded bg-orange-600 px-4 py-2 text-white hover:bg-orange-700">Post review</button>
+        </form>
     @else
         <p class="mb-4 text-gray-600">This eatery is closed. Reviews are paused.</p>
     @endif

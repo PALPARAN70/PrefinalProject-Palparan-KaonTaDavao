@@ -24,26 +24,25 @@ php artisan serve
 - **Features (6):** Suki ni Palparan, Budget Meal, Halal, Open 24 Hours, Aircon, Free Wifi
 - **My two users:** Luis Palparan (`palparan@kaonta.test`) and Tita Palparan (`tita.palparan@kaonta.test`), password `kaonta2026`
 - **My eatery:** Carinderia ni Palparan (slug `carinderia-ni-palparan`), Poblacion, San Pedro St., Poblacion, Davao City
-- **Permit:** DVO-2026-[0312], expiring [March 12, 2027]
+- **Permit:** DVO-2026-0312, expiring March 12, 2027
 
 ## Relationships
 
-District → Eatery: One district can have many eateries, but each eatery belongs to only one district.
+## Relationships
 
-Eatery → Dish: One eatery lists many dishes, and each dish belongs to one eatery only.
-
-Eatery → Review: One eatery gets many reviews, and each review is about one eatery only.
-
-User → Review: One user can write many reviews, and each review has one writer.
-
-Eatery → Permit: Each eatery has exactly one permit, which is why eatery_id is unique.
-
-Eatery ↔ Feature: An eatery has many features and a feature applies to many eateries, so a junction (associative) table is needed.
-
-District → Review: Reviews don't store district_id, so the district reaches them through the eatery table.
+| Relationship | Type | Why this type fits |
+|---|---|---|
+| District → Eatery | hasMany / belongsTo | One district can have many eateries, but each eatery belongs to only one district. |
+| Eatery → Dish | hasMany / belongsTo | One eatery lists many dishes, and each dish belongs to one eatery only. |
+| Eatery → Review | hasMany / belongsTo | One eatery gets many reviews, and each review is about one eatery only. |
+| User → Review | hasMany / belongsTo | One user can write many reviews, and each review has one writer. |
+| Eatery → Permit | hasOne / belongsTo | Each eatery has exactly one permit, which is why eatery_id is unique. |
+| Eatery ↔ Feature | belongsToMany (pivot eatery_feature) | An eatery has many features and a feature applies to many eateries, so a junction (associative) table is needed. |
+| District → Review | hasManyThrough (via Eatery) | Reviews don't store district_id, so the district reaches them through the eatery table. |
 ## Routes
 
 ```
+
  GET|HEAD / .. home ΓÇ║ HomeController
  GET|HEAD districts .. districts.index ΓÇ║ DistrictController@index
  GET|HEAD districts/{district} .. districts.show ΓÇ║ DistrictController@show
@@ -54,9 +53,13 @@ District → Review: Reviews don't store district_id, so the district reaches th
  PUT|PATCH eateries/{eatery} .. eateries.update ΓÇ║ EateryController@update
  DELETE eateries/{eatery} .. eateries.destroy ΓÇ║ EateryController@destroy
  GET|HEAD eateries/{eatery}/edit .. eateries.edit ΓÇ║ EateryController@edit
- POST eateries/{eatery}/reviews eateries.reviews.store ΓÇ║ ReviewControllΓÇª
+ POST eateries/{eatery}/reviews .. eateries.reviews.store ΓÇ║ ReviewController@store
  GET|HEAD reviewers/{user} .. reviewers.show ΓÇ║ ReviewerController@show
  DELETE reviews/{review} .. reviews.destroy ΓÇ║ ReviewController@destroy
+
+ Showing [13] routes
+
+
 
 ```
 

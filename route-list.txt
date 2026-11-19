@@ -1,0 +1,17 @@
+﻿
+ GET|HEAD / .. home ΓÇ║ HomeController
+ GET|HEAD districts .. districts.index ΓÇ║ DistrictController@index
+ GET|HEAD districts/{district} .. districts.show ΓÇ║ DistrictController@show
+ GET|HEAD eateries .. eateries.index ΓÇ║ EateryController@index
+ POST eateries .. eateries.store ΓÇ║ EateryController@store
+ GET|HEAD eateries/create .. eateries.create ΓÇ║ EateryController@create
+ GET|HEAD eateries/{eatery} .. eateries.show ΓÇ║ EateryController@show
+ PUT|PATCH eateries/{eatery} .. eateries.update ΓÇ║ EateryController@update
+ DELETE eateries/{eatery} .. eateries.destroy ΓÇ║ EateryController@destroy
+ GET|HEAD eateries/{eatery}/edit .. eateries.edit ΓÇ║ EateryController@edit
+ POST eateries/{eatery}/reviews .. eateries.reviews.store ΓÇ║ ReviewController@store
+ GET|HEAD reviewers/{user} .. reviewers.show ΓÇ║ ReviewerController@show
+ DELETE reviews/{review} .. reviews.destroy ΓÇ║ ReviewController@destroy
+
+ Showing [13] routes
+

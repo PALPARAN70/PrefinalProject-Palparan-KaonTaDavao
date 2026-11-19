@@ -28,16 +28,17 @@ php artisan serve
 
 ## Relationships
 
-| Relationship | Type | Why this type fits |
-|---|---|---|
-| District → Eatery | hasMany / belongsTo | One district can have many eateries, but each eatery belongs to only one district. |
-| Eatery → Dish | hasMany / belongsTo | One eatery lists many dishes, and each dish belongs to one eatery only. |
-| Eatery → Review | hasMany / belongsTo | One eatery gets many reviews, and each review is about one eatery only. |
-| User → Review | hasMany / belongsTo | One user can write many reviews, and each review has one writer. |
-| Eatery → Permit | hasOne / belongsTo | Each eatery has exactly one permit, which is why eatery_id is unique. |
-| Eatery ↔ Feature | belongsToMany (pivot eatery_feature) | An eatery has many features and a feature applies to many eateries, so a junction (associative) table is needed. |
-| District → Review | hasManyThrough (via Eatery) | Reviews don't store district_id, so the district reaches them through the eatery table. |
+## Relationships
 
+| Relationship | Type | Why This Type Fits |
+| :--- | :--- | :--- |
+| District → Eatery | `hasMany` / `belongsTo` | One district can have many eateries, but each eatery belongs to only one district. |
+| Eatery → Dish | `hasMany` / `belongsTo` | One eatery lists many dishes, and each dish belongs to one eatery only. |
+| Eatery → Review | `hasMany` / `belongsTo` | One eatery gets many reviews, and each review is about one eatery only. |
+| User → Review | `hasMany` / `belongsTo` | One user can write many reviews, and each review has one writer. |
+| Eatery → Permit | `hasOne` / `belongsTo` | Each eatery has exactly one permit, which is why `eatery_id` is unique. |
+| Eatery ↔ Feature | `belongsToMany` / `belongsToMany` | An eatery has many features and a feature applies to many eateries, so a junction (`eatery_feature`) table is needed. |
+| District → Review | `hasManyThrough` | Reviews don't store `district_id`, so the district reaches them through the `eateries` table. |
 ## Routes
 
 ```

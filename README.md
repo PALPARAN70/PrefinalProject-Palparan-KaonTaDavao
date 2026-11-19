@@ -3,7 +3,7 @@
 **Author:** Luis Alejandro M. Palparan
 **Course:** CS Elective 2 – Full-Stack Development (Laravel), Ateneo de Davao University
 
-A Laravel 12 + SQLite guide to carinderias and eateries in Davao City, built for the Prefinal milestone project.
+A Laravel 13 + SQLite guide to carinderias and eateries in Davao City, built for the Prefinal milestone project.
 
 ## Setup
 
@@ -28,8 +28,6 @@ php artisan serve
 
 ## Relationships
 
-## Relationships
-
 | Relationship | Type | Why this type fits |
 |---|---|---|
 | District → Eatery | hasMany / belongsTo | One district can have many eateries, but each eatery belongs to only one district. |
@@ -39,28 +37,23 @@ php artisan serve
 | Eatery → Permit | hasOne / belongsTo | Each eatery has exactly one permit, which is why eatery_id is unique. |
 | Eatery ↔ Feature | belongsToMany (pivot eatery_feature) | An eatery has many features and a feature applies to many eateries, so a junction (associative) table is needed. |
 | District → Review | hasManyThrough (via Eatery) | Reviews don't store district_id, so the district reaches them through the eatery table. |
+
 ## Routes
 
 ```
-
- GET|HEAD / .. home ΓÇ║ HomeController
- GET|HEAD districts .. districts.index ΓÇ║ DistrictController@index
- GET|HEAD districts/{district} .. districts.show ΓÇ║ DistrictController@show
- GET|HEAD eateries .. eateries.index ΓÇ║ EateryController@index
- POST eateries .. eateries.store ΓÇ║ EateryController@store
- GET|HEAD eateries/create .. eateries.create ΓÇ║ EateryController@create
- GET|HEAD eateries/{eatery} .. eateries.show ΓÇ║ EateryController@show
- PUT|PATCH eateries/{eatery} .. eateries.update ΓÇ║ EateryController@update
- DELETE eateries/{eatery} .. eateries.destroy ΓÇ║ EateryController@destroy
- GET|HEAD eateries/{eatery}/edit .. eateries.edit ΓÇ║ EateryController@edit
- POST eateries/{eatery}/reviews .. eateries.reviews.store ΓÇ║ ReviewController@store
- GET|HEAD reviewers/{user} .. reviewers.show ΓÇ║ ReviewerController@show
- DELETE reviews/{review} .. reviews.destroy ΓÇ║ ReviewController@destroy
-
- Showing [13] routes
-
-
-
+ GET|HEAD / .. home › HomeController
+ GET|HEAD districts .. districts.index › DistrictController@index
+ GET|HEAD districts/{district} .. districts.show › DistrictController@show
+ GET|HEAD eateries .. eateries.index › EateryController@index
+ POST eateries .. eateries.store › EateryController@store
+ GET|HEAD eateries/create .. eateries.create › EateryController@create
+ GET|HEAD eateries/{eatery} .. eateries.show › EateryController@show
+ PUT|PATCH eateries/{eatery} .. eateries.update › EateryController@update
+ DELETE eateries/{eatery} .. eateries.destroy › EateryController@destroy
+ GET|HEAD eateries/{eatery}/edit .. eateries.edit › EateryController@edit
+ POST eateries/{eatery}/reviews .. eateries.reviews.store › ReviewController@store
+ GET|HEAD reviewers/{user} .. reviewers.show › ReviewerController@show
+ DELETE reviews/{review} .. reviews.destroy › ReviewController@destroy
 ```
 
 ## Screenshots
